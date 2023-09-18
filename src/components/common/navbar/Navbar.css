@@ -1,0 +1,14 @@
+.styleNavbar{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.styleNavbar li{
+    list-style: none;
+    margin: 0 10px;
+}
+.styleNavbar a{
+    text-decoration: none;
+    color: black
+
+}

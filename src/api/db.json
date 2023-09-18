@@ -1,0 +1,13 @@
+{
+    "users": [
+        {
+            "firstName": "pepe",
+            "lastName": "milanesa",
+            "email": "abv@fsd.xom",
+            "password": "abc",
+            "passwordRepet": "abc",
+            "validation": false,
+            "id": 1
+        }
+    ]
+}
