@@ -5,6 +5,7 @@ import Login from "./components/pages/login/Login"
 import Pruebas from "./components/pages/pruebas/Pruebas"
 import Navbar from "./components/common/navbar/Navbar"
 import Footer from "./components/common/footer/Footer"
+import ProtectedRouter from "./components/router/ProtectedRouter"
 
 function App() {
 
@@ -15,7 +16,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
+
+          <Route element={<ProtectedRouter/>}>
+            <Route path="/home" element={<Home />} />
+          </Route>
+
           <Route path="/formulario" element={<Formulario />} />
           <Route path="/pruebas" element={<Pruebas />} />
         </Routes>

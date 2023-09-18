@@ -53,10 +53,10 @@ export default function SignInSide() {
             const response = await axios.get(`http://localhost:3000/users?email=${userEmail}`);
             const user = response.data[0]; // 
 
-            if (user && user.password === userPassword) {
+            if (user && user.password === userPassword) { //camino feliz
                 console.log('El usuario existe y la contraseña es correcta.');
-                navigate("/home")
-                //camino feliz
+                localStorage.setItem("token", true)
+                navigate("/home") 
             } else {
                 setMensaje("Los datos ingresados son incorrectos")
                 setTimeout(() => {
