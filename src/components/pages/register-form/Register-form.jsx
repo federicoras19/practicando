@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
+import axios from 'axios';
 import * as Yup from 'yup';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
     Dialog,
     DialogActions,
@@ -17,8 +17,7 @@ import {
     Typography,
     Container
 } from '@mui/material';
-import { Margin } from '@mui/icons-material';
-import axios from 'axios';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 function Copyright(props) {
     return (
@@ -60,9 +59,9 @@ export default function SignUp() {
             onSubmit: (data) => {
                 // setIsSubmitting(true);
                 setOpenDialog(true);
-                axios.post("http://localhost:3000/users",data )
-                .then(res => console.log(res.status))
-                .catch((errors)=>console.error(errors))
+                axios.post("http://localhost:3000/users", data)
+                    .then(res => console.log(res.status))
+                    .catch((errors) => console.error(errors))
                 console.log(data);
             }
         });
@@ -90,7 +89,7 @@ export default function SignUp() {
                 <Typography component="h1" variant="h3" color="primary" >
                     Formulario De Registro
                 </Typography>
-                <form onSubmit={handleSubmit} style={{marginTop:"20px"}}>
+                <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
                     {/* <Box sx={{ mt: 3 }}> */}
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>

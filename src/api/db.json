@@ -1,13 +1,40 @@
 {
-    "users": [
-        {
-            "firstName": "pepe",
-            "lastName": "milanesa",
-            "email": "abv@fsd.xom",
-            "password": "abc",
-            "passwordRepet": "abc",
-            "validation": false,
-            "id": 1
-        }
-    ]
+  "users": [
+    {
+      "firstName": "pepe",
+      "lastName": "milanesa",
+      "email": "abv@fsd.xom",
+      "password": "abc",
+      "passwordRepet": "abc",
+      "validation": false,
+      "id": 1
+    },
+    {
+      "firstName": "Juan",
+      "lastName": "Perez",
+      "email": "juan@perez.com",
+      "password": "123",
+      "passwordRepet": "123",
+      "validation": false,
+      "id": 2
+    },
+    {
+      "firstName": "abril",
+      "lastName": "rodriguez",
+      "email": "pepe@milanesa.com",
+      "password": "456",
+      "passwordRepet": "456",
+      "validation": false,
+      "id": 3
+    },
+    {
+      "firstName": "Lautaro",
+      "lastName": "DellOlio",
+      "email": "lautaro@dellolio.com",
+      "password": "456",
+      "passwordRepet": "456",
+      "validation": false,
+      "id": 4
+    }
+  ]
 }

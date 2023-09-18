@@ -1,20 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom"
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import axios from "axios"
+import {
+    FormControl,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    Link,
+    Paper,
+    Box,
+    Grid,
+    Typography,
+    IconButton
+} from '@mui/material';
+import {
+    Visibility,
+    VisibilityOff
+} from "@mui/icons-material"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+
 
 function Copyright(props) {
     return (
@@ -30,19 +39,37 @@ function Copyright(props) {
 }
 
 export default function SignInSide() {
-
     const navigate = useNavigate()
 
-    const handleSubmit = (event) => {
+    const [mensaje, setMensaje] = useState("")
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const userEmail = data.get('email');
+        const userPassword = data.get('password');
+
+        try {
+            const response = await axios.get(`http://localhost:3000/users?email=${userEmail}`);
+            const user = response.data[0]; // 
+
+            if (user && user.password === userPassword) {
+                console.log('El usuario existe y la contraseña es correcta.');
+                navigate("/home")
+                //camino feliz
+            } else {
+                setMensaje("Los datos ingresados son incorrectos")
+                setTimeout(() => {
+                    setMensaje('');
+                }, 3000);
+                console.log('Los datos ingresados son incorrectos');
+            }
+        } catch (error) {
+            console.error('Error al verificar el usuario:', error);
+        }
     };
 
-    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -51,7 +78,7 @@ export default function SignInSide() {
     };
 
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Grid container component="main" sx={{ height: '100vh', textAlign: 'center' }}>
             <CssBaseline />
             <Grid
                 item
@@ -83,7 +110,7 @@ export default function SignInSide() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField
                             // margin="normal"
                             fullWidth
@@ -93,7 +120,7 @@ export default function SignInSide() {
                             autoFocus
                         />
                         <FormControl sx={{ mt: 2 }} variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <InputLabel>Password</InputLabel>
                             <OutlinedInput
                                 id="password"
                                 name='password'
@@ -134,6 +161,7 @@ export default function SignInSide() {
                         >
                             Registrarse
                         </Button>
+                        {mensaje && <p style={{ color: 'red' }}>{mensaje}</p>}
                         {/* <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
@@ -146,11 +174,10 @@ export default function SignInSide() {
                                     </Link>
                                 </Grid>
                             </Grid> */}
-                        <Copyright sx={{ mt: 5 }} />
+                        {/* <Copyright sx={{ mt: 5 }} /> */}
                     </Box>
                 </Box>
             </Grid>
         </Grid>
-
     );
 }

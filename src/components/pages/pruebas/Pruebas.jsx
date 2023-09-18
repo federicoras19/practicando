@@ -1,22 +1,29 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useFormik } from "formik";
-import * as Yup from 'yup';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 import {
-    Dialog,
-    DialogActions,
-    DialogContent,
+    FormControl,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
     Avatar,
     Button,
     CssBaseline,
     TextField,
     Link,
-    Grid,
+    Paper,
     Box,
+    Grid,
     Typography,
-    Container
+    IconButton
 } from '@mui/material';
+import {
+    Visibility,
+    VisibilityOff
+} from "@mui/icons-material"
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+
 
 function Copyright(props) {
     return (
@@ -31,155 +38,148 @@ function Copyright(props) {
     );
 }
 
-export default function SignUp() {
-    const [openDialog, setOpenDialog] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const navigate = useNavigate();
+export default function SignInSide() {
+    const navigate = useNavigate()
 
-    const { handleSubmit, handleChange, values, setFieldValue, errors, setFieldTouched, touched } =
-        useFormik({
-            initialValues: {
-                firstName: '',
-                lastName: '',
-                email: '',
-                password: '',
-                passwordRepet: '',
-            },
-            validationSchema: Yup.object({
-                firstName: Yup.string().required('El nombre es obligatorio'),
-                lastName: Yup.string().required('El apellido es obligatorio'),
-                email: Yup.string().email('Email inválido').required('El email es obligatorio'),
-                password: Yup.string().required('La contraseña es obligatoria'),
-                passwordRepet: Yup.string()
-                    .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
-                    .required('Repetir la contraseña es obligatorio'),
-            }),
-            onSubmit: (data) => {
-                setIsSubmitting(true);
-                setOpenDialog(true);
-                console.log(data);
+    const [mensaje, setMensaje] = useState("")
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const userEmail = data.get('email');
+        const userPassword = data.get('password');
+
+        try {
+
+            const response = await axios.get(`http://localhost:3000/users?email=${userEmail}`);
+            const user = response.data[0]; // 
+
+            if (user && user.password === userPassword) {
+                console.log('El usuario existe y la contraseña es correcta.');
+                navigate("/home")
+                //camino feliz
+            } else {
+                setMensaje("Los datos ingresados son incorrectos")
+                setTimeout(() => {
+                    setMensaje('');
+                }, 3000);
+                console.log('Los datos ingresados son incorrectos');
             }
-        });
+        } catch (error) {
+            console.error('Error al verificar el usuario:', error);
+        }
+    };
 
-    const handleFieldBlur = (event) => {
-        const { name } = event.target;
-        setFieldTouched(name, true, false); // Desactivar validación en tiempo real
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     return (
-        <Container component="main" maxWidth="sm" >
+        <Grid container component="main" sx={{ height: '100vh', textAlign: 'center' }}>
             <CssBaseline />
-            <Box
+            <Grid
+                item
+                xs={false}
+                sm={4}
+                md={7}
                 sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center'
+                    backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundColor: (t) =>
+                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                 }}
-            >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h3" color="primary">
-                    Formulario De Registro
-                </Typography>
-                <form onSubmit={handleSubmit}>
-                    {/* <Box sx={{ mt: 3 }}> */}
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="given-name"
-                                name="firstName"
-                                label="Nombre"
-                                fullWidth
-                                autoFocus
-                                onBlur={handleFieldBlur}
-                                onChange={handleChange}
-                                value={values.firstName}
-                                error={touched.firstName && !!errors.firstName}
-                                helperText={touched.firstName && errors.firstName}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                name="lastName"
-                                label="Apellido"
-                                fullWidth
-                                onBlur={handleFieldBlur}
-                                onChange={handleChange}
-                                value={values.lastName}
-                                error={touched.lastName && !!errors.lastName}
-                                helperText={touched.lastName && errors.lastName}
-                                autoComplete="family-name"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                name="email"
-                                label="Email"
-                                fullWidth
-                                type='email'
-                                onBlur={handleFieldBlur}
-                                onChange={handleChange}
-                                value={values.email}
-                                error={touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
-                                autoComplete="email"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                name="password"
-                                label="Contraseña"
-                                fullWidth
-                                type="password"
-                                onBlur={handleFieldBlur}
-                                onChange={handleChange}
-                                value={values.password}
-                                error={touched.password && !!errors.password}
-                                helperText={touched.password && errors.password}
-                                autoComplete="new-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                name="passwordRepet"
-                                label="Repita su Contraseña"
-                                fullWidth
-                                type="password"
-                                onChange={handleChange}
-                                value={values.passwordRepet}
-                                error={touched.passwordRepet && !!errors.passwordRepet}
-                                helperText={touched.passwordRepet && errors.passwordRepet}
-                                autoComplete="new-password"
-                            />
-                        </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Registrarse
-                    </Button>
-                </form>
-            </Box>
-            <Dialog open={openDialog} onClose={() => navigate("/")}>
-                <DialogContent>
-                    <Typography>
-                        ¡Gracias por registrarte! Tu registro se ha completado con éxito.
+            />
+            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Box
+                    sx={{
+                        my: 8,
+                        mx: 4,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
                     </Typography>
-                </DialogContent>
-                <DialogActions>
+                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <TextField
+                            // margin="normal"
+                            fullWidth
+                            id="email"
+                            label="Email"
+                            name="email"
+                            autoFocus
+                        />
+                        <FormControl sx={{ mt: 2 }} variant="outlined" fullWidth>
+                            <InputLabel>Password</InputLabel>
+                            <OutlinedInput
+                                id="password"
+                                name='password'
+                                type={showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
+                            />
+                        </FormControl>
+                        {/* <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Remember me"
+                            /> */}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Ingresar
+                        </Button>
+                        <Button
+                            type="buttom"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            onClick={() => { navigate("/formulario") }}
+                        >
+                            Registrarse
+                        </Button>
+                        {mensaje && <p style={{ color: 'red' }}>{mensaje}</p>}
+                        {/* <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link href="#" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid> */}
+                        {/* <Copyright sx={{ mt: 5 }} /> */}
+                    </Box>
+                </Box>
+            </Grid>
+        </Grid>
 
-                    <Button onClick={() => { setOpenDialog(false); navigate("/") }} color="primary">
-                        Cerrar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* <Copyright sx={{ mt: 5 }} /> */}
-        </Container >
     );
 }
