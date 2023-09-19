@@ -46,6 +46,7 @@ export default function SignInSide() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        console.log("data", data) 
         const userEmail = data.get('email');
         const userPassword = data.get('password');
 
@@ -54,9 +55,10 @@ export default function SignInSide() {
             const user = response.data[0]; // 
 
             if (user && user.password === userPassword) { //camino feliz
+                console.log(user.jwt);
                 console.log('El usuario existe y la contraseña es correcta.');
                 localStorage.setItem("token", true)
-                navigate("/home") 
+                // navigate("/home") 
             } else {
                 setMensaje("Los datos ingresados son incorrectos")
                 setTimeout(() => {
