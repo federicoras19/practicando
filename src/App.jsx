@@ -5,27 +5,24 @@ import Login from "./components/pages/public/login/Login"
 import Pruebas from "./components/pages/pruebas/Pruebas"
 
 import ProtectedRouter from "./components/router/ProtectedRouter"
+import { ContextProvider } from "./components/utils/GlobalContexts"
 
 function App() {
 
-
   return (
     <div className="App">
-      <BrowserRouter>
-            
-        <Routes>
-          <Route path="/" element={<Login />} />                  //rutas publicas
-
-          <Route path="/formulario" element={<Formulario />} />
-          <Route path="/pruebas" element={<Pruebas />} />
-
-          <Route element={<ProtectedRouter />}>                   //rutas privadas
-            <Route path="/home" element={<Home />} />
-          </Route>
-
-        </Routes>
-            
-      </BrowserRouter>
+      <ContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />              //rutas publicas
+            <Route path="/formulario" element={<Formulario />} />
+            {/* <Route path="/pruebas" element={<Pruebas />} /> */}
+            <Route element={<ProtectedRouter />}>               //rutas privadas
+              <Route path="/home" element={<Home />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ContextProvider>
     </div>
   )
 }

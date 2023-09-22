@@ -2,21 +2,21 @@
   "users": [
     {
       "firstName": "Lautaro",
-      "lastName": "DellOlio",
-      "email": "lautaro@dellolio.com",
-      "password": "456",
-      "passwordRepet": "456",
-      "validation": false,
-      "id": 4
-    },
-    {
-      "firstName": "juan",
-      "lastName": "perez",
-      "email": "juan@perez.com",
+      "lastName": "Dellolio",
+      "email": "lautarodellolio@gmail.com",
       "password": "123",
       "passwordRepet": "123",
       "validation": false,
-      "id": 5
+      "id": 1
+    },
+    {
+      "firstName": "Alan",
+      "lastName": "Fourss",
+      "email": "alan@gmail.com",
+      "password": "123",
+      "passwordRepet": "123",
+      "validation": false,
+      "id": 2
     }
   ]
 }

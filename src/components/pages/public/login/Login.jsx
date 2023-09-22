@@ -58,7 +58,7 @@ export default function SignInSide() {
                 console.log(user.jwt);
                 console.log('El usuario existe y la contraseña es correcta.');
                 localStorage.setItem("token", true)
-                // navigate("/home") 
+                    navigate("/home") 
             } else {
                 setMensaje("Los datos ingresados son incorrectos")
                 setTimeout(() => {
