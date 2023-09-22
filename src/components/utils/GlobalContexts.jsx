@@ -57,7 +57,6 @@ export const ContextProvider = ({ children }) => {
             .get(apiUrl, config)
             .then((response) => {
                 dispatch({ type: "SET_DATA", payload: [...state.data, ...response.data.results] });
-                console.log(response.data.results);
             })
             .catch((error) => {
                 console.error('Error al obtener datos de la película:', error);

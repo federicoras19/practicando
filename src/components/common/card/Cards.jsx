@@ -31,7 +31,7 @@ const Cards = () => {
                     <Grid key={item.id} item xs={2.3}>
                         <Card sx={{ borderRadius: "15px" }}>
                             <Box >
-                                <Link>
+                                <Link to={`/cardsDetail/${item.id}`}>
                                     <CardMedia
                                         component="img"
                                         height="320px"
@@ -45,7 +45,9 @@ const Cards = () => {
                                     flexDirection: "column",
                                     justifyContent: "space-between"
                                 }}>
-                                    <Link style={{ textDecoration: "none" }}>
+                                    <Link
+                                        to={`/cardsDetail/${item.id}`}
+                                        style={{ textDecoration: "none" }}>
                                         <Typography
                                             gutterBottom
                                             variant="h6"
