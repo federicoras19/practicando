@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useReducer, useEffect } from "react"
+import { createContext, useReducer, useEffect, useState } from "react"
 
 export const themes = {
     light: {
@@ -37,14 +37,17 @@ export const DataContext = createContext(initialState);
 
 export const ContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(handleAction, initialState)
-    
+    const [currentPage, setCurrentPage] = useState(1);
 
+    const cargarPaginaSiguiente = () => {
+        setCurrentPage(currentPage + 1)
+    }
     const toggleTheme = () => {
         dispatch({ type: 'SET_THEME' });
     };
 
     useEffect(() => {
-        const apiUrl = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1`;
+        const apiUrl = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${currentPage}`;
         const config = {
             headers: {
                 Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MGMyOTJkM2UxMDI4NGE1ZTQyNGY0N2UwOTJkNTMxOSIsInN1YiI6IjY1MDliMzkwMzczYWMyMDBjNTMzYzY4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TYloIvMd4dHMGZWGKL7BiWeyg4yTLyIArxFPjRo0I3k`,
@@ -53,16 +56,16 @@ export const ContextProvider = ({ children }) => {
         axios
             .get(apiUrl, config)
             .then((response) => {
-                dispatch({ type: "SET_DATA", payload: response.data.results });
+                dispatch({ type: "SET_DATA", payload: [...state.data, ...response.data.results] });
                 console.log(response.data.results);
             })
             .catch((error) => {
                 console.error('Error al obtener datos de la película:', error);
             });
-    }, []);
+    }, [currentPage]);
 
     return (
-        <DataContext.Provider value={{ state, toggleTheme }}>
+        <DataContext.Provider value={{ state, toggleTheme, cargarPaginaSiguiente }}>
             {children}
         </DataContext.Provider>
     )

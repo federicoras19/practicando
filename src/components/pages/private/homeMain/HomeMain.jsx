@@ -7,7 +7,7 @@ import Cards from "../../../common/card/Cards";
 
 
 const HomeMain = () => {
-    const { state } = useContext(DataContext)
+    const { state, cargarPaginaSiguiente } = useContext(DataContext)
 
     return (
         <div style={{
@@ -17,7 +17,10 @@ const HomeMain = () => {
             background: state.theme.background
         }}>
             <Cards />
-            <Button variant="contained">Ver más</Button>
+            <Button 
+            variant="contained"
+            onClick={cargarPaginaSiguiente}
+            >Ver más</Button>
         </div>);
 };
 
