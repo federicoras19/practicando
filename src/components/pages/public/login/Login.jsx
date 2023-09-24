@@ -40,13 +40,12 @@ function Copyright(props) {
 
 export default function SignInSide() {
     const navigate = useNavigate()
-
     const [mensaje, setMensaje] = useState("")
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log("data", data) 
+        console.log("data", data)
         const userEmail = data.get('email');
         const userPassword = data.get('password');
 
@@ -56,9 +55,11 @@ export default function SignInSide() {
 
             if (user && user.password === userPassword) { //camino feliz
                 console.log(user.jwt);
+                console.log(user);
                 console.log('El usuario existe y la contraseña es correcta.');
                 localStorage.setItem("token", true)
-                    navigate("/home") 
+                localStorage.setItem("name", user.firstName)
+                navigate("/home")
             } else {
                 setMensaje("Los datos ingresados son incorrectos")
                 setTimeout(() => {

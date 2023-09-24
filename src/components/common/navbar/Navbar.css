@@ -2,6 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    background-color: #000b71;
+    padding: 15px;
 }
 .styleNavbar li{
     list-style: none;
@@ -9,6 +11,5 @@
 }
 .styleNavbar a{
     text-decoration: none;
-    color: black
-
+    color: white
 }

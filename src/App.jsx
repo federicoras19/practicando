@@ -10,7 +10,8 @@ import Formulario from "./components/pages/public/register-form/Register-form"
 import Layout from "./components/common/layout/Layout"
 import Home from "./components/pages/private/home/Home"
 import CardDetail from "./components/pages/private/cardDetail/CardDetail"
-import Pruebas from "./components/pages/pruebas/Pruebas"
+import Pruebas from "./components/pages/private/pruebas/Pruebas"
+
 
 function App() {
   return (
