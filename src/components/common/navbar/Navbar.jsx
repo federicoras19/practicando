@@ -9,15 +9,10 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
 const Navbar = () => {
     const { toggleTheme } = useContext(DataContext)
     return (
-        <>
             <nav className='styleNavbar'>
                 <li><Link to="/home">Home</Link></li>
                 <Switch {...label} onClick={toggleTheme}/>
             </nav >
-            <Outlet />
-        </>
-
-
     )
 }
 
